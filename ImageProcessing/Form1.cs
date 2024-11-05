@@ -22,7 +22,7 @@ namespace ImageProcessing {
 
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
-        private Bitmap backgroundBitmap; // Loaded from file for background comparison
+        private Bitmap backgroundBitmap;
 
 
         public Form1() {
@@ -31,25 +31,25 @@ namespace ImageProcessing {
         }
 
         private void InitializeVideo() {
-            // Get available video devices
+            
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
-            // Check if any video device is available
+            
             if (videoDevices.Count > 0) {
-                videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString); // Select the first camera
+                videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString); 
                 videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
             } else {
                 MessageBox.Show("No video sources found.");
             }
         }
 
-        // Event handler for new frames captured by the camera
+        
 private void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
 {
-    // Clone the frame to avoid memory issues
+    
     Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
-    // Display the frame in a PictureBox
-    pictureBox3.Image = frame; // Assuming you want to show it in pictureBox3
+    
+    pictureBox3.Image = frame; 
 }
 
 
@@ -179,10 +179,7 @@ private void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
 
         // Stop the webcam
         private void offToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (videoSource.IsRunning) {
-                videoSource.SignalToStop();
-                videoSource.WaitForStop();
-            }
+            videoSource.Stop();
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
