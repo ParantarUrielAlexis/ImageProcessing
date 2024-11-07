@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="basicDIPlib ver 1.cs" />
     <Compile Include="CITLIBFilters.cs" />
+    <Compile Include="ConvolutionMatrix.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="Form1.cs">

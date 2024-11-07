@@ -34,7 +34,7 @@ namespace ImageProcess2
 		public double Y;
 	}
 
-	public class BitmapFilter
+	public static class BitmapFilter
 	{
 		public const short EDGE_DETECT_KIRSH		= 1;
 		public const short EDGE_DETECT_PREWITT		= 2;
@@ -433,8 +433,56 @@ namespace ImageProcess2
 			m.Offset = 127;
 
 			return  BitmapFilter.Conv3x3(b, m);
-		}	
-		public static bool EdgeDetectQuick(Bitmap b)
+		}
+        public static bool EmbossHorzVert(Bitmap b) {
+            ConvMatrix m = new ConvMatrix();
+            m.TopMid = -1;
+            m.MidLeft = -1;
+            m.Pixel = 4;
+            m.MidRight = -1;
+            m.BottomMid = -1;
+            m.Factor = 1;
+            m.Offset = 127;
+
+            return BitmapFilter.Conv3x3(b, m);
+        }
+
+        public static bool EmbossAllDirections(Bitmap b) {
+            ConvMatrix m = new ConvMatrix();
+            m.SetAll(-1);
+            m.Pixel = 8;
+            m.Factor = 1;
+            m.Offset = 127;
+
+            return BitmapFilter.Conv3x3(b, m);
+        }
+
+        public static bool EmbossHorizontalOnly(Bitmap b) {
+            ConvMatrix m = new ConvMatrix();
+            m.MidLeft = -1;
+            m.MidRight = -1;
+            m.Pixel = 2;
+            m.Factor = 1;
+            m.Offset = 127;
+
+            return BitmapFilter.Conv3x3(b, m);
+        }
+
+
+        public static bool EmbossVerticalOnly(Bitmap b) {
+            ConvMatrix m = new ConvMatrix();
+            m.TopMid = -1;
+            m.BottomMid = 1;
+            m.Factor = 1;
+            m.Offset = 127;
+
+            return BitmapFilter.Conv3x3(b, m);
+        }
+
+
+
+
+        public static bool EdgeDetectQuick(Bitmap b)
 		{
 			ConvMatrix m = new ConvMatrix();
 			m.TopLeft = m.TopMid = m.TopRight = -1;
@@ -446,7 +494,17 @@ namespace ImageProcess2
 			return  BitmapFilter.Conv3x3(b, m);
 		}
 
-		public static bool EdgeDetectConvolution(Bitmap b, short nType, byte nThreshold)
+        public static bool EmbossHorsVers(Bitmap b) {
+            ConvMatrix m = new ConvMatrix();
+            m.SetAll(0);
+            m.TopMid = m.MidLeft = m.MidRight = m.BottomMid = -1;
+            m.Pixel = 4;
+            m.Offset = 127;
+
+            return BitmapFilter.Conv3x3(b, m);
+        }
+
+        public static bool EdgeDetectConvolution(Bitmap b, short nType, byte nThreshold)
 		{
 			ConvMatrix m = new ConvMatrix();
 

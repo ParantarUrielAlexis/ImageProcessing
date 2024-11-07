@@ -16,7 +16,7 @@ using AForge.Video;
 
 namespace ImageProcessing {
     public partial class Form1 : Form {
-        Bitmap loaded, processed, imageA, imageB, resultImage;
+        Bitmap loaded, processed, imageA, imageB, resultImage, filter;
 
         Device[] allDevice;
 
@@ -209,6 +209,91 @@ private void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
 
             pictureBox5.Image = resultImage;
         }
+
+
+        private void gaussianBlurToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.GaussianBlur(filter, 4);
+            pictureBox2.Image = filter;
+        }
+
+        private void meanRemovalToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.MeanRemoval(filter, 9);
+            pictureBox2.Image = filter;
+        }
+
+        private void embossingToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.EmbossLaplacian(filter);
+            pictureBox2.Image = filter;
+        }
+
+        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.EmbossHorsVers(filter);
+            pictureBox2.Image = filter;
+        }
+
+        private void lossyToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.Sharpen(filter, 11);
+            pictureBox2.Image = filter;
+        }
+
+        private void shrinkToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (loaded != null) {
+               
+                filter = (Bitmap)loaded.Clone();
+
+               
+                ConvMatrix matrix = new ConvMatrix();
+                matrix.SetAll(1); 
+                matrix.Factor = 9; 
+
+                
+                bool success = BitmapFilter.Conv3x3(filter, matrix);
+
+                if (success) {
+                    pictureBox2.Image = filter; 
+                } else {
+                    MessageBox.Show("An error occurred during convolution.");
+                }
+            } else {
+                MessageBox.Show("Load an image first.");
+            }
+        }
+
+        private void smoothToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.Smooth(filter, 11);
+            pictureBox2.Image = filter;
+        }
+
+        private void allDirectionsToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.EmbossAllDirections(filter);
+            pictureBox2.Image = filter;
+        }
+
+        private void horizontalOnlyToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.EmbossHorizontalOnly(filter);
+            pictureBox2.Image = filter;
+        }
+
+        private void verticalOnlyToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.EmbossHorzVert(filter);
+            pictureBox2.Image = filter;
+        }
+
+        private void sharpenToolStripMenuItem_Click(object sender, EventArgs e) {
+            filter = loaded;
+            BitmapFilter.Sharpen(filter, 11);
+            pictureBox2.Image = filter;
+        }
+
 
 
         private void mirrorHorizToolStripMenuItem_Click(object sender, EventArgs e) {
